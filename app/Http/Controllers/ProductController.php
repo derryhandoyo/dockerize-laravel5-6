@@ -128,8 +128,8 @@ class ProductController extends Controller
         // dd($request);
         // $product->update($request->all());
 
-        
-        if ($request->file('image')) {
+
+        if ($request->hasfile('image')) {
             $image_file = $request->file('image')->getRealPath();
             $image = Image::make($image_file);
             $b64 = base64_encode($image->encode()->encoded);
@@ -150,10 +150,6 @@ class ProductController extends Controller
                 ]
             );
         }
-
-
-
-
 
         return redirect()->route('products.index')
             ->with(
