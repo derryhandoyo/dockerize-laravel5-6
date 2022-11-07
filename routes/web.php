@@ -19,3 +19,4 @@ Route::get('/', function () {
 
 Route::resource('products', ProductController::class);
 Route::get('product/fetch_image/{id}', 'ProductController@fetch_image');
+Route::get('product/fetch_detail/{id}', 'ProductController@fetch_detail');

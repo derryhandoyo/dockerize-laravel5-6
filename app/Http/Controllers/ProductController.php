@@ -115,6 +115,16 @@ class ProductController extends Controller
         return view('products.show', compact('product'));
     }
 
+    // public function show($id){
+    //     $product = Product::find($id);
+    //     if (empty($product)) {      
+    //         return redirect(route('products.index'));
+    //     }
+        
+    //     return view('products.show')
+    //     ->with('product', $product);
+    // }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -197,6 +207,19 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $image_file = Image::make($product->image);
+
+        $response = Response::make($image_file->encode('jpeg'));
+
+        $response->header('Content-Type', 'image/jpeg');
+
+        return $response;
+    }
+
+    function fetch_detail($id)
+    {
+        $productImage = ProductImage::findOrFail($id);
+
+        $image_file = Image::make($productImage->image);
 
         $response = Response::make($image_file->encode('jpeg'));
 
