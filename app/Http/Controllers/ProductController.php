@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\ProductImage;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use Image;
@@ -82,7 +83,23 @@ class ProductController extends Controller
                 'image' => $b64
             ]
             );
-        $product->save();
+        if ($product->save()) {
+            if ($request->hasfile('detailimages')) {
+                foreach ($request->detailimages as $detailimage) {                    
+                    $image_file = $detailimage->getRealPath();                    
+                    $image = Image::make($image_file);
+                    $b64 = base64_encode($image->encode()->encoded);
+
+                    $productimage = new ProductImage(
+                        [
+                            'product_id' => $product->id,
+                            'image' => $b64
+                        ]
+                    );
+                    $productimage->save();
+                }
+            }
+        }
 
         return redirect(route('products.index'));
     }
@@ -152,7 +169,7 @@ class ProductController extends Controller
         }
 
         return redirect()->route('products.index')
-            ->with(
+        ->with(
                 'success',
                 'Product updated successfully'
             );
@@ -169,7 +186,7 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index')
-            ->with(
+        ->with(
                 'success',
                 'Product deleted successfully'
             );
