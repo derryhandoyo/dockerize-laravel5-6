@@ -26,6 +26,14 @@ class ProductController extends Controller
             );
     }
 
+    public function home()
+    {
+        $products = Product::latest()->paginate(5);
+
+        return view('welcome', compact('products'));
+            
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::resource('products', ProductController::class);
+Route::get('/', 'ProductController@home');
 Route::get('product/fetch_image/{id}', 'ProductController@fetch_image');
 Route::get('product/fetch_detail/{id}', 'ProductController@fetch_detail');
 Route::delete('image_detail/{id?}/delete', 'ProductImageController@destroy');
