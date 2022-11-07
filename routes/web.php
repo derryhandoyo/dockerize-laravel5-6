@@ -17,7 +17,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::resource('products', ProductController::class);
+Route::prefix('admin')->group(function () {
+    Route::resource('products', ProductController::class);   
+});
+
 Route::get('/', 'ProductController@home');
 Route::get('product/fetch_image/{id}', 'ProductController@fetch_image');
 Route::get('product/fetch_detail/{id}', 'ProductController@fetch_detail');
